@@ -4,21 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "InputAction.h"
-#include "InputActionValue.h"
 #include "Zombies/ZombiesCharacter.h"
-#include "MyZombiesCharacter.generated.h"
+#include "MyCharacter.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class AMyZombiesCharacter : public AZombiesCharacter
+class AMyCharacter : public AZombiesCharacter
 {
 	GENERATED_BODY()
 
 public:
 	
-	AMyZombiesCharacter();
+	AMyCharacter();
 	
 	// Created Input Actions
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta=(AllowPrivateAccess=true))

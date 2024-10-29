@@ -1,13 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MyZombiesCharacter.h"
+#include "MyCharacter.h"
 
 #include "EnhancedInputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
 
-AMyZombiesCharacter::AMyZombiesCharacter()
+AMyCharacter::AMyCharacter()
 {
 	// Enable Crouching 
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
@@ -15,7 +15,7 @@ AMyZombiesCharacter::AMyZombiesCharacter()
 
 
 // Check to make sure character is using Enhanced Input Component, and if so, Bind Input Actions
-void AMyZombiesCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	
@@ -24,20 +24,20 @@ void AMyZombiesCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		
 		if (EnhancedInputComponent != nullptr)
 		{
-			EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &AMyZombiesCharacter::Crouch);
-			EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Completed, this, &AMyZombiesCharacter::StopCrouch);
+			EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &AMyCharacter::Crouch);
+			EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Completed, this, &AMyCharacter::StopCrouch);
 		}
 		
 	}
 }
 
-void AMyZombiesCharacter::Crouch()
+void AMyCharacter::Crouch()
 {
 	// Call Unreal Made Crouch Function
 	ACharacter::Crouch();
 }
 
-void AMyZombiesCharacter::StopCrouch()
+void AMyCharacter::StopCrouch()
 {
 	// Call Unreal Made Uncrouch Function 
 	ACharacter::UnCrouch();
