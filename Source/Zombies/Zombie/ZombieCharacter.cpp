@@ -24,4 +24,19 @@ void AZombieCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+bool AZombieCharacter::IsAttacking() const
+{
+	return bIsAttacking;
+}
+
+bool AZombieCharacter::IsDead() const
+{
+	return bIsDead;
+}
+
+bool AZombieCharacter::IsWalkingOrRunning() const
+{
+	return bIsWalkingOrRunning;
+}
+
 

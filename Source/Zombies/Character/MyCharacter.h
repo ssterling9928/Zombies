@@ -29,8 +29,10 @@ protected:
 	// Function to Bind Input Actions
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
+	
+private:
 	// Function to Call Crouch Input Action
-	void Crouch();
+	void CrouchCharacter();
 
 	// Function to Call to stop Crouch Input Action
 	void StopCrouch();

@@ -24,22 +24,22 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 		
 		if (EnhancedInputComponent != nullptr)
 		{
-			EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &AMyCharacter::Crouch);
+			EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &AMyCharacter::CrouchCharacter);
 			EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Completed, this, &AMyCharacter::StopCrouch);
 		}
 		
 	}
 }
 
-void AMyCharacter::Crouch()
+void AMyCharacter::CrouchCharacter()
 {
 	// Call Unreal Made Crouch Function
-	ACharacter::Crouch();
+	ACharacter::Crouch(false);
 }
 
 void AMyCharacter::StopCrouch()
 {
 	// Call Unreal Made Uncrouch Function 
-	ACharacter::UnCrouch();
+	ACharacter::UnCrouch(false);
 }
 
