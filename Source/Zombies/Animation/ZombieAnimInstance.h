@@ -10,7 +10,7 @@
 #include "Zombies/Zombie/ZombieAIController.h"
 #include "ZombieAnimInstance.generated.h"
 
-enum class EZombieState : uint8;
+enum class EZombieState : uint8; 
 
 UCLASS()
 class ZOMBIES_API UZombieAnimInstance : public UAnimInstance
