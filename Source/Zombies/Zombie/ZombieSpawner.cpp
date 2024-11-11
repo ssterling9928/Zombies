@@ -1,5 +1,7 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ // Copyright © Stephen Sterling 2024.  All rights reserved.
 
+// This software and its contents are protected by copyright law and international treaties.
+// Unauthorized copying, distribution, or use of any part of this project without express permission from Stephen Sterling is strictly prohibited.
 
 #include "ZombieSpawner.h"
 

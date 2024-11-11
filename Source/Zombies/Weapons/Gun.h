@@ -6,16 +6,23 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Zombies/ZombiesGameMode.h"
-#include "MyZombiesGameMode.generated.h"
+#include "Weapon.h"
+#include "Gun.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class ZOMBIES_API AMyZombiesGameMode : public AZombiesGameMode
+class ZOMBIES_API AGun : public AWeapon
 {
 	GENERATED_BODY()
 
-	AMyZombiesGameMode();
+public:
+	// Sets default values for this actor's properties
+	AGun();
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 };

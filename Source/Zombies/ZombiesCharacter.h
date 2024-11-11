@@ -41,7 +41,7 @@ public:
 	AZombiesCharacter();
 
 protected:
-	virtual void BeginPlay();
+	virtual void BeginPlay() override;
 
 public:
 		

@@ -2,20 +2,26 @@
 
 // This software and its contents are protected by copyright law and international treaties.
 // Unauthorized copying, distribution, or use of any part of this project without express permission from Stephen Sterling is strictly prohibited.
-
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Zombies/ZombiesGameMode.h"
-#include "MyZombiesGameMode.generated.h"
+#include "GameFramework/Actor.h"
+#include "Weapon.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class ZOMBIES_API AMyZombiesGameMode : public AZombiesGameMode
+class ZOMBIES_API AWeapon : public AActor
 {
 	GENERATED_BODY()
 
-	AMyZombiesGameMode();
+public:
+	// Sets default values for this actor's properties
+	AWeapon();
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 };
