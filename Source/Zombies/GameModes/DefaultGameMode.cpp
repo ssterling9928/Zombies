@@ -3,19 +3,9 @@
 // This software and its contents are protected by copyright law and international treaties.
 // Unauthorized copying, distribution, or use of any part of this project without express permission from Stephen Sterling is strictly prohibited.
 
-#pragma once
 
-#include "CoreMinimal.h"
-#include "Zombies/ZombiesGameMode.h"
-#include "MyZombiesGameMode.generated.h"
+#include "DefaultGameMode.h"
 
-/**
- * 
- */
-UCLASS()
-class ZOMBIES_API AMyZombiesGameMode : public AZombiesGameMode
+ADefaultGameMode::ADefaultGameMode()
 {
-	GENERATED_BODY()
-
-	AMyZombiesGameMode();
-};
+}
