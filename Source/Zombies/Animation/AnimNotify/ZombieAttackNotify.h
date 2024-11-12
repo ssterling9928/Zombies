@@ -9,9 +9,7 @@
 #include "Animation/AnimNotifies/AnimNotify.h"
 #include "ZombieAttackNotify.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class ZOMBIES_API UZombieAttackNotify : public UAnimNotify
 {
