@@ -7,9 +7,10 @@
 #include "ZombieCharacter.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Zombies/Character/PlayerCharacter.h"
 
 
-// Sets default values
+ // Sets default values
 AZombieCharacter::AZombieCharacter()
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -42,7 +43,7 @@ void AZombieCharacter::Tick(float DeltaTime)
 
  void AZombieCharacter::DealDamage()
  {
-	
+	UE_LOG(LogTemp, Warning, TEXT("Damage called"));
  }
 
 void AZombieCharacter::StartAttack()
@@ -54,8 +55,14 @@ void AZombieCharacter::StartAttack()
 	}
 }
 
-void AZombieCharacter::PlayAnimationMontage(EAnimationType AnimationType) const
+ void AZombieCharacter::EndAttack()
+ {
+	bIsAttacking = false;
+ }
+
+ void AZombieCharacter::PlayAnimationMontage(EAnimationType AnimationType) const
 {
+	// if there is not a montage to play or there is no mesh, just return 
 	if (!AnimationMontages || !GetMesh()) return;
 
 	UAnimMontage* MontageToPlay = nullptr;
@@ -91,6 +98,7 @@ void AZombieCharacter::SetIsAggressive(bool bNewIsAggressive)
 		GetCharacterMovement()->MaxWalkSpeed = bIsAggressive ? AggressiveSpeed : CalmSpeed;
 	}
 }
+
 
 
 
