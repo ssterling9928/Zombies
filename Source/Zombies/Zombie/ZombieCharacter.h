@@ -34,6 +34,7 @@ public:
 
 	void DealDamage();
 	void StartAttack();
+	void EndAttack();
 	void PlayAnimationMontage(EAnimationType AnimationType) const;
 
 	UFUNCTION(BlueprintCallable, Category = "Zombie")

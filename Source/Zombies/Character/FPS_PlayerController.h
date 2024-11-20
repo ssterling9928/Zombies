@@ -17,11 +17,12 @@ class ZOMBIES_API AFPS_PlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
+
+	AFPS_PlayerController();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputMappingContext* InputMappingContext;
 
-	AFPS_PlayerController();
 
 protected:
 	virtual void BeginPlay() override;

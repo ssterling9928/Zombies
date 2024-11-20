@@ -30,7 +30,8 @@ public:
 
 	EZombieState GetZombieState() const;
 	void SetZombieState(EZombieState NewState);
-	void OnAttack() const;
+	void OnAttackNotify() const;
+	void OnAttackNotifyEnd() const; 
 
 protected:
 	// Called when the game starts or when spawned

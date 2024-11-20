@@ -5,6 +5,8 @@
 
 
 #include "ZombieAIController.h"
+#include "Components/CapsuleComponent.h"
+#include "Zombies/Animation/AnimNotify/ZombieAttackNotifyState.h"
 
 
 // Sets default values
@@ -20,6 +22,7 @@ EZombieState AZombieAIController::GetZombieState() const
 {
 	return CurrentZombieState;
 }
+
 
 void AZombieAIController::SetZombieState(EZombieState NewState)
 {
@@ -37,11 +40,19 @@ void AZombieAIController::SetZombieState(EZombieState NewState)
 	
 }
 
-void AZombieAIController::OnAttack() const
+void AZombieAIController::OnAttackNotify() const
 {
-	if (ZombieCharRef && !ZombieCharRef->IsAttacking())
+	if (!ZombieCharRef->IsAttacking())
 	{
 		ZombieCharRef->StartAttack();
+	}
+}
+
+void AZombieAIController::OnAttackNotifyEnd() const
+{
+	if (ZombieCharRef->IsAttacking())
+	{
+		ZombieCharRef->EndAttack();
 	}
 }
 
@@ -60,8 +71,6 @@ void AZombieAIController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	
 	MoveToActor(PlayerReference, AcceptanceRadius);
-
-	
 	
 }
 
