@@ -8,7 +8,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Zombies/Animation/AnimationDataAsset.h"
+#include "Animation/AnimInstance.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "ZombieCharacter.generated.h"
+
 
 UCLASS()
 class ZOMBIES_API AZombieCharacter : public ACharacter
@@ -20,17 +24,16 @@ public:
 	AZombieCharacter();
 	
 	virtual void Tick(float DeltaTime) override;
+
+	FVector ZombieLocation; // Location in the world of the zombie instance
 	
 	bool IsAttacking() const { return bIsAttacking; }
 	bool IsDead() const { return bIsDead; }
 	bool IsMoving() const { return bIsMoving; }
 	bool IsWeak() const { return bIsWeak; }
 	bool IsAggressive() const { return bIsAggressive; }
-	bool IsWithinAttackRange() const { return bIsWithinAttackRange; }
 	float GetMovementSpeed() const { return MovementSpeed; }
 
-	void SetIsWithinAttackRange(bool bNewIsWithinAttackRange)
-	{ bIsWithinAttackRange = bNewIsWithinAttackRange; }
 
 	void DealDamage();
 	void StartAttack();
@@ -39,6 +42,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Zombie")
 	void SetIsAggressive(bool bNewIsAggressive);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (ClampMin = "0", ClampMax = "200"), Category = "Zombies")
+	float AttackRange = 110;
 	
 protected:
 	
@@ -75,7 +81,4 @@ private:
 	
 	UPROPERTY(VisibleAnywhere, Category = "Zombies")
 	bool bIsAggressive;
-
-	UPROPERTY(VisibleAnywhere, Category = "Zombies")
-	bool bIsWithinAttackRange;
 };

@@ -42,7 +42,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
 	AZombieAIController* ZombieAIController;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
 	bool bIsAggressive;
 
 	void virtual NativeUpdateAnimation(float DeltaSeconds) override;

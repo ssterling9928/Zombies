@@ -13,11 +13,11 @@
 
 APlayerCharacter::APlayerCharacter()
 {
-	// Create a CameraComponent	
-	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
-	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
-	FirstPersonCameraComponent->SetRelativeLocation(FVector(-10.f, 0.f, 60.f)); // Position the camera
-	FirstPersonCameraComponent->bUsePawnControlRotation = true;
+	// // Create a CameraComponent	
+	// FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
+	// FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
+	// FirstPersonCameraComponent->SetRelativeLocation(FVector(-10.f, 0.f, 60.f)); // Position the camera
+	// FirstPersonCameraComponent->bUsePawnControlRotation = true;
 	
 	// Enable Crouching 
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
@@ -48,6 +48,13 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 			EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Completed, this, &APlayerCharacter::StopCrouch);
 		}
 	}
+}
+
+void APlayerCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	PlayerLocation = GetActorLocation();
 }
 
 void APlayerCharacter::CrouchCharacter()

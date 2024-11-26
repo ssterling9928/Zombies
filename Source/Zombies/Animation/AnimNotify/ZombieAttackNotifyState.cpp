@@ -13,6 +13,7 @@ void UZombieAttackNotifyState::NotifyBegin(USkeletalMeshComponent* MeshComp, UAn
 {
 	Super::NotifyBegin(MeshComp, Animation, TotalDuration, EventReference);
 
+	UE_LOG(LogTemp, Display, TEXT("NotifyBegin"));
 	// check to make sure that it is a zombie calling the function
 	if (AZombieCharacter* ZombieCharacter = Cast<AZombieCharacter>(MeshComp->GetOwner()))
 	{

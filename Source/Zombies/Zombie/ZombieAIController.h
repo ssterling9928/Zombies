@@ -36,7 +36,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	void AttackPlayerIfWithinRange() const;
+	void MoveZombieTowardsPlayer();
 
 public:
 	// Called every frame
@@ -47,11 +48,12 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	APawn* PlayerReference = nullptr;
 
+	UPROPERTY(VisibleAnywhere)
+	AZombieCharacter* ZombieReference = nullptr;
+
 	UPROPERTY(EditAnywhere)
 	float AcceptanceRadius = 1.0;
-
-	UPROPERTY(VisibleAnywhere)
-	AZombieCharacter* ZombieCharRef;
 	
 	EZombieState CurrentZombieState;
+	
 };

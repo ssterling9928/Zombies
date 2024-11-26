@@ -3,11 +3,7 @@
 // This software and its contents are protected by copyright law and international treaties.
 // Unauthorized copying, distribution, or use of any part of this project without express permission from Stephen Sterling is strictly prohibited.
 
-
 #include "ZombieCharacter.h"
-
-#include "GameFramework/CharacterMovementComponent.h"
-#include "Zombies/Character/PlayerCharacter.h"
 
 
  // Sets default values
@@ -21,7 +17,6 @@ AZombieCharacter::AZombieCharacter()
 	bIsMoving = false;
 	bIsWeak = false;
 	bIsAggressive = false;
-	bIsWithinAttackRange = false;
 }
 
 // Called when the game starts or when spawned
@@ -38,6 +33,7 @@ void AZombieCharacter::Tick(float DeltaTime)
 
 	bIsMoving = GetVelocity().Length() > 0;
 	MovementSpeed = GetVelocity().Length();
+	ZombieLocation = GetActorLocation();
 	
 }
 
@@ -48,8 +44,10 @@ void AZombieCharacter::Tick(float DeltaTime)
 
 void AZombieCharacter::StartAttack()
 {
-	if (!bIsAttacking && AnimationMontages)
+	UE_LOG(LogAssetData, Warning, TEXT("Value of bIsAttacking is %i"), bIsAttacking)
+	if (bIsAttacking != true && AnimationMontages != nullptr)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Called from Inside StartAttack() !bIsAttacking and AnimationMontages are both true!!"));
 		bIsAttacking = true;
 		PlayAnimationMontage(EAnimationType::Attack);
 	}
@@ -62,9 +60,11 @@ void AZombieCharacter::StartAttack()
 
  void AZombieCharacter::PlayAnimationMontage(EAnimationType AnimationType) const
 {
+	 UE_LOG(LogTemp, Warning, TEXT("Called from PlayAnimationMontage"));
+
 	// if there is not a montage to play or there is no mesh, just return 
 	if (!AnimationMontages || !GetMesh()) return;
-
+	
 	UAnimMontage* MontageToPlay = nullptr;
 	for (const FAnimationMontageData& Data : AnimationMontages->AnimationsArray)
 	{
@@ -79,7 +79,8 @@ void AZombieCharacter::StartAttack()
 	{
 		if (UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance())
 		{
-			AnimInstance->Montage_Play(MontageToPlay);
+			float Seconds = AnimInstance->Montage_Play(MontageToPlay);
+			UE_LOG(LogAnimation, Warning, TEXT("Called from PlayAnimationMontage -- Seconds = %f"), Seconds);
 		}
 	}
 	else

@@ -12,7 +12,6 @@
 
 class UInputComponent;
 class USkeletalMeshComponent;
-class UCameraComponent;
 class UInputAction;
 class UInputMappingContext;
 struct FInputActionValue;
@@ -25,10 +24,7 @@ class APlayerCharacter : public ACharacter
 public:
 	
 	APlayerCharacter();
-
-	// First Person Camera Component
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* FirstPersonCameraComponent;
+	FVector PlayerLocation; // Location of the player in world 
 
 	// Jump Input Action
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
@@ -50,6 +46,8 @@ protected:
 
 	// Function to bind Input Actions
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+
+	virtual void Tick(float DeltaTime) override;
 	
 private:
 	

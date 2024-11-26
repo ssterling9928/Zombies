@@ -6,6 +6,7 @@
 
 #include "ZombieAIController.h"
 #include "Components/CapsuleComponent.h"
+#include "Engine/World.h"
 #include "Zombies/Animation/AnimNotify/ZombieAttackNotifyState.h"
 
 
@@ -15,7 +16,6 @@ AZombieAIController::AZombieAIController()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	CurrentZombieState = EZombieState::Calm;
-	ZombieCharRef = nullptr;
 }
 
 EZombieState AZombieAIController::GetZombieState() const
@@ -26,34 +26,28 @@ EZombieState AZombieAIController::GetZombieState() const
 
 void AZombieAIController::SetZombieState(EZombieState NewState)
 {
-	if (ZombieCharRef == nullptr)
+	if (ZombieReference == nullptr)
 	{
-		ZombieCharRef = Cast<AZombieCharacter>(GetPawn());
+		ZombieReference = Cast<AZombieCharacter>(GetPawn());
 	}
 
-	if (CurrentZombieState != NewState && ZombieCharRef)
+	if (CurrentZombieState != NewState && ZombieReference)
 	{
 		CurrentZombieState = NewState;
 		bool bNewAggressiveState = (CurrentZombieState == EZombieState::Aggressive);
-		ZombieCharRef->SetIsAggressive(bNewAggressiveState);
+		ZombieReference->SetIsAggressive(bNewAggressiveState);
 	}
 	
 }
 
 void AZombieAIController::OnAttackNotify() const
 {
-	if (!ZombieCharRef->IsAttacking())
-	{
-		ZombieCharRef->StartAttack();
-	}
+	ZombieReference->DealDamage();
 }
 
 void AZombieAIController::OnAttackNotifyEnd() const
 {
-	if (ZombieCharRef->IsAttacking())
-	{
-		ZombieCharRef->EndAttack();
-	}
+	ZombieReference->EndAttack();
 }
 
 // Called when the game starts or when spawned
@@ -65,12 +59,29 @@ void AZombieAIController::BeginPlay()
 	SetZombieState(EZombieState::Calm);
 }
 
+void AZombieAIController::AttackPlayerIfWithinRange() const
+{
+	float DistanceFromCharacter = FVector::Dist(ZombieReference->ZombieLocation, PlayerReference->GetActorLocation());
+
+	if (DistanceFromCharacter <= ZombieReference->AttackRange)
+	{
+		UE_LOG(LogAssetData, Warning, TEXT("Called from ZombieAI AttackPlayerIfWithinRange -- Distance from character is %f"), DistanceFromCharacter);
+		ZombieReference->StartAttack();
+	}
+}
+
+void AZombieAIController::MoveZombieTowardsPlayer()
+{
+	MoveToActor(PlayerReference, AcceptanceRadius);
+}
+
 // Called every frame
 void AZombieAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	MoveToActor(PlayerReference, AcceptanceRadius);
+	MoveZombieTowardsPlayer();
+	AttackPlayerIfWithinRange();
 	
 }
 
