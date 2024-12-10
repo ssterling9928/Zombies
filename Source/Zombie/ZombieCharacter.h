@@ -7,7 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Zombies/Animation/AnimationDataAsset.h"
+#include "Animation/AnimationDataAsset.h"
 #include "Animation/AnimInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/SkeletalMeshComponent.h"

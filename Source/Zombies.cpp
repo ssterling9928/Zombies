@@ -3,5 +3,5 @@
 #include "Zombies.h"
 #include "Modules/ModuleManager.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, Zombies, "Zombies" );
+IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, Zombies, "Zombies");
  

@@ -4,8 +4,9 @@
 // Unauthorized copying, distribution, or use of any part of this project without express permission from Stephen Sterling is strictly prohibited.
 
 #include "ZombieAttackNotifyState.h"
-#include "Zombies/Zombie/ZombieAIController.h"
-#include "Zombies/Zombie/ZombieCharacter.h"
+
+#include "Zombie/ZombieAIController.h"
+#include "Zombie/ZombieCharacter.h"
 
 
 void UZombieAttackNotifyState::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation,

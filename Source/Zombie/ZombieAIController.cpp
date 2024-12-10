@@ -7,7 +7,7 @@
 #include "ZombieAIController.h"
 #include "Components/CapsuleComponent.h"
 #include "Engine/World.h"
-#include "Zombies/Animation/AnimNotify/ZombieAttackNotifyState.h"
+#include "Animation/AnimNotify/ZombieAttackNotifyState.h"
 
 
 // Sets default values

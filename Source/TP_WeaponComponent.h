@@ -6,7 +6,9 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "TP_WeaponComponent.generated.h"
 
-class AZombiesCharacter;
+
+class AZombieCharacter;
+class APlayerCharacter;
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ZOMBIES_API UTP_WeaponComponent : public USkeletalMeshComponent
@@ -43,7 +45,7 @@ public:
 
 	/** Attaches the actor to a FirstPersonCharacter */
 	UFUNCTION(BlueprintCallable, Category="Weapon")
-	bool AttachWeapon(AZombiesCharacter* TargetCharacter);
+	bool AttachWeapon(ACharacter* TargetCharacter);
 
 	/** Make the weapon Fire a Projectile */
 	UFUNCTION(BlueprintCallable, Category="Weapon")
@@ -56,5 +58,5 @@ protected:
 
 private:
 	/** The Character holding this weapon*/
-	AZombiesCharacter* Character;
+	ACharacter *Character;
 };

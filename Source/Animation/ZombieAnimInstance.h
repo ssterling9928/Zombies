@@ -7,7 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
-#include "Zombies/Zombie/ZombieAIController.h"
+#include "Zombie/ZombieAIController.h"
 #include "ZombieAnimInstance.generated.h"
 
 enum class EZombieState : uint8; 

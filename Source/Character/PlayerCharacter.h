@@ -7,11 +7,10 @@
 
 #include "CoreMinimal.h"
 #include "InputAction.h"
-#include "Zombies/ZombiesCharacter.h"
+#include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
 class UInputComponent;
-class USkeletalMeshComponent;
 class UInputAction;
 class UInputMappingContext;
 struct FInputActionValue;
