@@ -65,7 +65,6 @@ void AZombieAIController::AttackPlayerIfWithinRange() const
 
 	if (DistanceFromCharacter <= ZombieReference->AttackRange)
 	{
-		UE_LOG(LogAssetData, Warning, TEXT("Called from ZombieAI AttackPlayerIfWithinRange -- Distance from character is %f"), DistanceFromCharacter);
 		ZombieReference->StartAttack();
 	}
 }

@@ -44,10 +44,8 @@ void AZombieCharacter::Tick(float DeltaTime)
 
 void AZombieCharacter::StartAttack()
 {
-	UE_LOG(LogAssetData, Warning, TEXT("Value of bIsAttacking is %i"), bIsAttacking)
 	if (bIsAttacking != true && AnimationMontages != nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Called from Inside StartAttack() !bIsAttacking and AnimationMontages are both true!!"));
 		bIsAttacking = true;
 		PlayAnimationMontage(EAnimationType::Attack);
 	}
@@ -55,6 +53,7 @@ void AZombieCharacter::StartAttack()
 
  void AZombieCharacter::EndAttack()
  {
+	UE_LOG(LogTemp, Display, TEXT("End Attack"));
 	bIsAttacking = false;
  }
 
