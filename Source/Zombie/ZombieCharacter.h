@@ -33,18 +33,14 @@ public:
 	bool IsWeak() const { return bIsWeak; }
 	bool IsAggressive() const { return bIsAggressive; }
 	float GetMovementSpeed() const { return MovementSpeed; }
+	float GetAttackRange() const { return AttackRange; }
 
 
 	void DealDamage();
-	void StartAttack();
+	void StartAttackAnimation();
 	void EndAttack();
 	void PlayAnimationMontage(EAnimationType AnimationType) const;
-
-	UFUNCTION(BlueprintCallable, Category = "Zombie")
 	void SetIsAggressive(bool bNewIsAggressive);
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (ClampMin = "0", ClampMax = "200"), Category = "Zombies")
-	float AttackRange = 110;
 	
 protected:
 	
@@ -60,25 +56,28 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Zombies")
 	float AggressiveSpeed = 300;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (ClampMin = "0", ClampMax = "200"), Category = "Zombies")
+	float AttackRange = 110;
 	
 private:
 
 	
-	UPROPERTY(VisibleAnywhere, Category = "Zombies")
+	UPROPERTY(VisibleInstanceOnly, Category = "Zombies")
 	float MovementSpeed = 0;
 
-	UPROPERTY(VisibleAnywhere, Category = "Zombies")
+	UPROPERTY(VisibleInstanceOnly, Category = "Zombies")
 	bool bIsAttacking;
 	
-	UPROPERTY(VisibleAnywhere, Category = "Zombies")
+	UPROPERTY(VisibleInstanceOnly, Category = "Zombies")
 	bool bIsDead;
 	
-	UPROPERTY(VisibleAnywhere, Category = "Zombies")
+	UPROPERTY(VisibleInstanceOnly, Category = "Zombies")
 	bool bIsMoving;
 	
-	UPROPERTY(VisibleAnywhere, Category = "Zombies")
+	UPROPERTY(VisibleInstanceOnly, Category = "Zombies")
 	bool bIsWeak;
 	
-	UPROPERTY(VisibleAnywhere, Category = "Zombies")
+	UPROPERTY(VisibleInstanceOnly, Category = "Zombies")
 	bool bIsAggressive;
 };

@@ -42,12 +42,16 @@ void AZombieCharacter::Tick(float DeltaTime)
 	UE_LOG(LogTemp, Warning, TEXT("Damage called"));
  }
 
-void AZombieCharacter::StartAttack()
+void AZombieCharacter::StartAttackAnimation()
 {
 	if (bIsAttacking != true && AnimationMontages != nullptr)
 	{
 		bIsAttacking = true;
 		PlayAnimationMontage(EAnimationType::Attack);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("bIsAttacking is already TRUE or No AnimationMontages to Play"));
 	}
 }
 
@@ -62,7 +66,7 @@ void AZombieCharacter::StartAttack()
 	 UE_LOG(LogTemp, Warning, TEXT("Called from PlayAnimationMontage"));
 
 	// if there is not a montage to play or there is no mesh, just return 
-	if (!AnimationMontages || !GetMesh()) return;
+	if (AnimationMontages == nullptr || GetMesh() == nullptr) return;
 	
 	UAnimMontage* MontageToPlay = nullptr;
 	for (const FAnimationMontageData& Data : AnimationMontages->AnimationsArray)
@@ -78,8 +82,7 @@ void AZombieCharacter::StartAttack()
 	{
 		if (UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance())
 		{
-			float Seconds = AnimInstance->Montage_Play(MontageToPlay);
-			UE_LOG(LogAnimation, Warning, TEXT("Called from PlayAnimationMontage -- Seconds = %f"), Seconds);
+			AnimInstance->Montage_Play(MontageToPlay);
 		}
 	}
 	else

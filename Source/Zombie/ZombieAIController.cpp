@@ -26,16 +26,12 @@ EZombieState AZombieAIController::GetZombieState() const
 
 void AZombieAIController::SetZombieState(EZombieState NewState)
 {
-	if (ZombieReference == nullptr)
-	{
-		ZombieReference = Cast<AZombieCharacter>(GetPawn());
-	}
 
 	if (CurrentZombieState != NewState && ZombieReference)
 	{
 		CurrentZombieState = NewState;
-		bool bNewAggressiveState = (CurrentZombieState == EZombieState::Aggressive);
-		ZombieReference->SetIsAggressive(bNewAggressiveState);
+		bool bIsNewStateAggressive = (CurrentZombieState == EZombieState::Aggressive);
+		ZombieReference->SetIsAggressive(bIsNewStateAggressive);
 	}
 	
 }
@@ -56,16 +52,16 @@ void AZombieAIController::BeginPlay()
 	Super::BeginPlay();
 
 	PlayerReference = GetWorld()->GetFirstPlayerController()->GetPawn();
-	SetZombieState(EZombieState::Calm);
+	ZombieReference = Cast<AZombieCharacter>(GetPawn());
 }
 
 void AZombieAIController::AttackPlayerIfWithinRange() const
 {
 	float DistanceFromCharacter = FVector::Dist(ZombieReference->ZombieLocation, PlayerReference->GetActorLocation());
 
-	if (DistanceFromCharacter <= ZombieReference->AttackRange)
+	if (DistanceFromCharacter <= ZombieReference->GetAttackRange())
 	{
-		ZombieReference->StartAttack();
+		ZombieReference->StartAttackAnimation();
 	}
 }
 

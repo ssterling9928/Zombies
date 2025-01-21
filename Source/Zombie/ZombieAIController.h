@@ -28,32 +28,33 @@ public:
 	// Sets default values for this actor's properties
 	AZombieAIController();
 
+	virtual void Tick(float DeltaTime) override;
+
 	EZombieState GetZombieState() const;
-	void SetZombieState(EZombieState NewState);
 	void OnAttackNotify() const;
 	void OnAttackNotifyEnd() const; 
 
 protected:
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
 	void AttackPlayerIfWithinRange() const;
 	void MoveZombieTowardsPlayer();
-
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-private:
-
-	UPROPERTY(VisibleAnywhere)
-	APawn* PlayerReference = nullptr;
-
-	UPROPERTY(VisibleAnywhere)
-	AZombieCharacter* ZombieReference = nullptr;
+	void SetZombieState(EZombieState NewState);
 
 	UPROPERTY(EditAnywhere)
 	float AcceptanceRadius = 1.0;
 	
+
+private:
+
+	UPROPERTY()  //  Created "UPROPERTY" to deal with Garbage Collection issue
+	APawn* PlayerReference;
+
+	UPROPERTY()  //  Created "UPROPERTY" to deal with Garbage Collection issue
+	AZombieCharacter* ZombieReference;
+
 	EZombieState CurrentZombieState;
 	
 };
