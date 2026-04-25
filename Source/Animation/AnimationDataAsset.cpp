@@ -4,3 +4,16 @@
 // Unauthorized copying, distribution, or use of any part of this project without express permission from Stephen Sterling is strictly prohibited.
 
 #include "AnimationDataAsset.h"
+#include "Animation/AnimMontage.h"
+
+UAnimMontage *UAnimationDataAsset::GetAnimationMontage(EAnimationType AnimationType) const
+{
+    for (const FAnimationMontageData& Entry : AnimationsArray)
+    {
+        if (Entry.AnimationType == AnimationType)
+        {
+            return Entry.AnimationMontage;
+        }
+    }
+    return nullptr;
+}

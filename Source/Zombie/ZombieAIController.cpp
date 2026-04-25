@@ -43,7 +43,7 @@ void AZombieAIController::OnAttackNotify() const
 
 void AZombieAIController::OnAttackNotifyEnd() const
 {
-	ZombieReference->EndAttack();
+	ZombieReference->StopAttackAnimation();
 }
 
 // Called when the game starts or when spawned
@@ -57,8 +57,8 @@ void AZombieAIController::BeginPlay()
 
 void AZombieAIController::AttackPlayerIfWithinRange() const
 {
-	float DistanceFromCharacter = FVector::Dist(ZombieReference->ZombieLocation, PlayerReference->GetActorLocation());
-
+	float DistanceFromCharacter = FVector::Dist(ZombieReference->GetActorLocation(), PlayerReference->GetActorLocation());
+	
 	if (DistanceFromCharacter <= ZombieReference->GetAttackRange())
 	{
 		ZombieReference->StartAttackAnimation();

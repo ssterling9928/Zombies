@@ -7,7 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "Runtime/AIModule/Classes/AIController.h"
-#include "ZombieCharacter.h"
+#include "Zombie/ZombieCharacter.h"
 #include "ZombieAIController.generated.h"
 
 

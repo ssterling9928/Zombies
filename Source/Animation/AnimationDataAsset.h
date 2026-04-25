@@ -7,18 +7,10 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "Animation/ZombieAnimationTypes.h"
 #include "AnimationDataAsset.generated.h"
 
-
-// Enum type for animation montage
-UENUM(BlueprintType)
-enum class EAnimationType : uint8
-{
-	Attack UMETA(DisplayName = "Attack"),
-	Death UMETA(DisplayName = "Death"),
-	Jump UMETA(DisplayName = "Jump"),
-};
-
+class UAnimMontage;
 
 // struct for data asset
 USTRUCT(BlueprintType)
@@ -26,14 +18,12 @@ struct FAnimationMontageData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EAnimationType AnimationType;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Animation")
+	EAnimationType AnimationType = EAnimationType::Attack;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UAnimMontage* AnimationMontage;
-	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Animation")
+	TObjectPtr<UAnimMontage> AnimationMontage = nullptr;
 };
-
 
 UCLASS(BlueprintType)
 class ZOMBIES_API UAnimationDataAsset : public UPrimaryDataAsset
@@ -41,6 +31,9 @@ class ZOMBIES_API UAnimationDataAsset : public UPrimaryDataAsset
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Animation")
 	TArray<FAnimationMontageData> AnimationsArray;
+
+	UFUNCTION(BlueprintCallable, Category = "Animation")
+	UAnimMontage *GetAnimationMontage(EAnimationType AnimationType) const;
 };

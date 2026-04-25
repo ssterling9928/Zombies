@@ -1,83 +1,72 @@
-// Copyright © Stephen Sterling 2024.  All rights reserved.
-
-// This software and its contents are protected by copyright law and international treaties.
-// Unauthorized copying, distribution, or use of any part of this project without express permission from Stephen Sterling is strictly prohibited.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Animation/AnimationDataAsset.h"
-#include "Animation/AnimInstance.h"
-#include "GameFramework/CharacterMovementComponent.h"
-#include "Components/SkeletalMeshComponent.h"
+#include "Animation/ZombieAnimationTypes.h"
 #include "ZombieCharacter.generated.h"
 
+class UAnimationDataAsset;
+class UZombieAnimInstance;
 
 UCLASS()
 class ZOMBIES_API AZombieCharacter : public ACharacter
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
-	AZombieCharacter();
-	
-	virtual void Tick(float DeltaTime) override;
+    AZombieCharacter();
 
-	FVector ZombieLocation; // Location in the world of the zombie instance
-	
-	bool IsAttacking() const { return bIsAttacking; }
-	bool IsDead() const { return bIsDead; }
-	bool IsMoving() const { return bIsMoving; }
-	bool IsWeak() const { return bIsWeak; }
-	bool IsAggressive() const { return bIsAggressive; }
-	float GetMovementSpeed() const { return MovementSpeed; }
-	float GetAttackRange() const { return AttackRange; }
+    virtual void Tick(float DeltaTime) override;
 
+    bool IsAttacking() const { return bIsAttacking; }
+    bool IsDead() const { return bIsDead; }
+    bool IsMoving() const { return bIsMoving; }
+    bool IsWeak() const { return bIsWeak; }
+    bool IsAggressive() const { return bIsAggressive; }
+    float GetMovementSpeed() const { return MovementSpeed; }
+    float GetAttackRange() const { return AttackRange; }
 
-	void DealDamage();
-	void StartAttackAnimation();
-	void EndAttack();
-	void PlayAnimationMontage(EAnimationType AnimationType) const;
-	void SetIsAggressive(bool bNewIsAggressive);
-	
+    void WriteUILog();
+    void DealDamage();
+    void StartAttackAnimation();
+    void StopAttackAnimation();
+    void PlayAnimationMontage(EAnimationType AnimationType) const;
+    void SetIsAggressive(bool bNewIsAggressive);
+
 protected:
-	
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+    virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
-	UAnimationDataAsset* AnimationMontages = nullptr;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Animation")
+    TObjectPtr<UAnimationDataAsset> AnimationMontages = nullptr;
 
-	// Property used to set animations for zombie walk/run
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Zombies")
-	float CalmSpeed = 150;
+    UPROPERTY(Transient, VisibleAnywhere, BlueprintReadOnly, Category="Animation", meta=(AllowPrivateAccess="true"))
+    TObjectPtr<UZombieAnimInstance> AnimInstance = nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Zombies")
-	float AggressiveSpeed = 300;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Zombies")
+    float CalmSpeed = 150.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (ClampMin = "0", ClampMax = "200"), Category = "Zombies")
-	float AttackRange = 110;
-	
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Zombies")
+    float AggressiveSpeed = 300.f;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Zombies", meta=(ClampMin="0", ClampMax="200"))
+    float AttackRange = 110.f;
+
 private:
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Zombies", meta=(AllowPrivateAccess="true"))
+    float MovementSpeed = 0.f;
 
-	
-	UPROPERTY(VisibleInstanceOnly, Category = "Zombies")
-	float MovementSpeed = 0;
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Zombies", meta=(AllowPrivateAccess="true"))
+    bool bIsAttacking = false;
 
-	UPROPERTY(VisibleInstanceOnly, Category = "Zombies")
-	bool bIsAttacking;
-	
-	UPROPERTY(VisibleInstanceOnly, Category = "Zombies")
-	bool bIsDead;
-	
-	UPROPERTY(VisibleInstanceOnly, Category = "Zombies")
-	bool bIsMoving;
-	
-	UPROPERTY(VisibleInstanceOnly, Category = "Zombies")
-	bool bIsWeak;
-	
-	UPROPERTY(VisibleInstanceOnly, Category = "Zombies")
-	bool bIsAggressive;
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Zombies", meta=(AllowPrivateAccess="true"))
+    bool bIsDead = false;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Zombies", meta=(AllowPrivateAccess="true"))
+    bool bIsMoving = false;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Zombies", meta=(AllowPrivateAccess="true"))
+    bool bIsWeak = false;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Zombies", meta=(AllowPrivateAccess="true"))
+    bool bIsAggressive = false;
 };

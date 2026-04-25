@@ -7,10 +7,9 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
-#include "Zombie/ZombieAIController.h"
 #include "ZombieAnimInstance.generated.h"
 
-enum class EZombieState : uint8; 
+class AZombieCharacter;
 
 UCLASS()
 class ZOMBIES_API UZombieAnimInstance : public UAnimInstance
@@ -18,6 +17,14 @@ class ZOMBIES_API UZombieAnimInstance : public UAnimInstance
 	GENERATED_BODY()
 
 public:
+
+	virtual void NativeInitializeAnimation() override;
+	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
+
+protected:
+
+	UPROPERTY(BlueprintReadOnly, Category = "Zombie")
+	TObjectPtr<AZombieCharacter> ZombieCharacter;
 	
 	// Movement Speed variable for the transition
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
@@ -39,11 +46,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
 	bool bIsWeak;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
-	AZombieAIController* ZombieAIController;
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
 	bool bIsAggressive;
-
-	void virtual NativeUpdateAnimation(float DeltaSeconds) override;
+	
 };
