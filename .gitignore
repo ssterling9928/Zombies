@@ -155,3 +155,5 @@ fabric.properties
 
 # User-specific files
 *.rsp
+.vscode/*
+Config/*

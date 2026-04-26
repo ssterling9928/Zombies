@@ -39,7 +39,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	void AttackPlayerIfWithinRange() const;
+	bool IsPlayerWithinAttackRange() const;
+	void AttackPlayer() const;
+	void StopAttacking() const;
 	void MoveZombieTowardsPlayer();
 	void SetZombieState(EZombieState NewState);
 

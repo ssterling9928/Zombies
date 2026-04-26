@@ -6,6 +6,7 @@
 #include "ZombieCharacter.h"
 #include "Animation/ZombieAnimInstance.h"
 #include "Animation/AnimationDataAsset.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
@@ -28,6 +29,7 @@ void AZombieCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	AnimInstance = Cast<UZombieAnimInstance>(GetMesh()->GetAnimInstance());
+	UE_LOG(LogTemp, Warning, TEXT("AttackRange = %f"), AttackRange);
 }
 
 // Called every frame
@@ -58,6 +60,24 @@ void AZombieCharacter::WriteUILog()
 	GEngine->AddOnScreenDebugMessage(2, 0.0f, FColor::Yellow, FString::Printf(TEXT("Distance from Player: %f"), DistanceFromCharacter));
 }
 
+void AZombieCharacter::HandleAttack()
+{
+	if (!bIsAttacking)
+	{
+		bIsAttacking = true;
+		StartAttackAnimation();
+	}
+}
+
+void AZombieCharacter::StopAttack()
+{
+	if (bIsAttacking)
+	{
+		bIsAttacking = false;
+		StopAttackAnimation();
+	}
+}
+
 void AZombieCharacter::DealDamage()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Damage called"));
@@ -65,23 +85,17 @@ void AZombieCharacter::DealDamage()
 
 void AZombieCharacter::StartAttackAnimation()
 {
-	if (bIsAttacking != true && AnimationMontages != nullptr)
+	if (AnimationMontages != nullptr)
 	{
-		bIsAttacking = true;
 		PlayAnimationMontage(EAnimationType::Attack);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("bIsAttacking is already TRUE or No AnimationMontages to Play"));
 	}
 }
 
 void AZombieCharacter::StopAttackAnimation()
 {
-	if (bIsAttacking && AnimationMontages != nullptr)
+	if (AnimationMontages != nullptr)
 	{
-		bIsAttacking = false;
-		
+		AnimInstance->Montage_Stop(0.2f, AnimationMontages->GetAnimationMontage(EAnimationType::Attack));	
 	}
 	else
 	{
@@ -91,34 +105,25 @@ void AZombieCharacter::StopAttackAnimation()
 
 void AZombieCharacter::PlayAnimationMontage(EAnimationType AnimationType) const
 {
-	UE_LOG(LogTemp, Warning, TEXT("Called from PlayAnimationMontage"));
+    if (!AnimationMontages)
+    {
+        return;
+    }
 
-	// if there is not a montage to play or there is no mesh, just return
-	if (!AnimationMontages)
-		return;
+    UAnimMontage* MontageToPlay = AnimationMontages->GetAnimationMontage(AnimationType);
 
-	UAnimMontage *MontageToPlay = nullptr;
-	for (const FAnimationMontageData &Data : AnimationMontages->AnimationsArray)
-	{
-		if (Data.AnimationType == AnimationType)
-		{
-			MontageToPlay = Data.AnimationMontage;
-			break;
-		}
-	}
+    if (!MontageToPlay)
+    {
+        return;
+    }
 
-	if (MontageToPlay)
-	{
-		if (AnimInstance)
-		{
-			AnimInstance->Montage_Play(MontageToPlay);
-		}
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Montage for animation type '%d' not found in Data Asset."),
-			   static_cast<int32>(AnimationType));
-	}
+    if (USkeletalMeshComponent* MeshComp = GetMesh())
+    {
+        if (UAnimInstance* CurrentAnimInstance = MeshComp->GetAnimInstance())
+        {
+            CurrentAnimInstance->Montage_Play(MontageToPlay);
+        }
+    }
 }
 
 void AZombieCharacter::SetIsAggressive(bool bNewIsAggressive)

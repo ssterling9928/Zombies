@@ -25,9 +25,13 @@ public:
     bool IsAggressive() const { return bIsAggressive; }
     float GetMovementSpeed() const { return MovementSpeed; }
     float GetAttackRange() const { return AttackRange; }
+    float GetIsInAttackRange() const { return bIsInAttackRange; }
+    float GetAttackCooldownTimer() const { return AttackCooldownTimer; }
 
     void WriteUILog();
     void DealDamage();
+    void HandleAttack();
+    void StopAttack();
     void StartAttackAnimation();
     void StopAttackAnimation();
     void PlayAnimationMontage(EAnimationType AnimationType) const;
@@ -37,18 +41,18 @@ protected:
     virtual void BeginPlay() override;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Animation")
-    TObjectPtr<UAnimationDataAsset> AnimationMontages = nullptr;
+    UAnimationDataAsset* AnimationMontages = nullptr;
 
     UPROPERTY(Transient, VisibleAnywhere, BlueprintReadOnly, Category="Animation", meta=(AllowPrivateAccess="true"))
     TObjectPtr<UZombieAnimInstance> AnimInstance = nullptr;
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Zombies")
+    UPROPERTY(EditDefaultsOnly, Category="Zombies")
     float CalmSpeed = 150.f;
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Zombies")
+    UPROPERTY(EditDefaultsOnly, Category="Zombies")
     float AggressiveSpeed = 300.f;
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Zombies", meta=(ClampMin="0", ClampMax="200"))
+    UPROPERTY(EditDefaultsOnly, Category="Zombies", meta=(ClampMin="0", ClampMax="200"))
     float AttackRange = 110.f;
 
 private:
@@ -69,4 +73,10 @@ private:
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Zombies", meta=(AllowPrivateAccess="true"))
     bool bIsAggressive = false;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Zombies", meta=(AllowPrivateAccess="true"))
+    bool bIsInAttackRange = false;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Zombies", meta=(AllowPrivateAccess="true"))
+    float AttackCooldownTimer = 0.f;
 };

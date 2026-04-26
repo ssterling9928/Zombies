@@ -43,7 +43,7 @@ void AZombieAIController::OnAttackNotify() const
 
 void AZombieAIController::OnAttackNotifyEnd() const
 {
-	ZombieReference->StopAttackAnimation();
+	
 }
 
 // Called when the game starts or when spawned
@@ -55,14 +55,27 @@ void AZombieAIController::BeginPlay()
 	ZombieReference = Cast<AZombieCharacter>(GetPawn());
 }
 
-void AZombieAIController::AttackPlayerIfWithinRange() const
+bool AZombieAIController::IsPlayerWithinAttackRange() const
 {
 	float DistanceFromCharacter = FVector::Dist(ZombieReference->GetActorLocation(), PlayerReference->GetActorLocation());
-	
-	if (DistanceFromCharacter <= ZombieReference->GetAttackRange())
+	return DistanceFromCharacter <= ZombieReference->GetAttackRange();
+}
+void AZombieAIController::AttackPlayer() const
+{
+	if (IsPlayerWithinAttackRange())
 	{
-		ZombieReference->StartAttackAnimation();
+		if (AAIController *AIController = Cast<AAIController>(ZombieReference->GetController()))
+		{
+			AIController->StopMovement();
+		}
+
+		ZombieReference->HandleAttack();
 	}
+}
+
+void AZombieAIController::StopAttacking() const
+{
+	ZombieReference->StopAttack();
 }
 
 void AZombieAIController::MoveZombieTowardsPlayer()
@@ -74,10 +87,16 @@ void AZombieAIController::MoveZombieTowardsPlayer()
 void AZombieAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
-	MoveZombieTowardsPlayer();
-	AttackPlayerIfWithinRange();
-	
+
+	if (IsPlayerWithinAttackRange())
+	{
+		AttackPlayer();
+	}	
+	else if (PlayerReference)
+	{	
+		StopAttacking();
+		MoveZombieTowardsPlayer();
+	}
 }
 
 
